@@ -1,7 +1,7 @@
 set -x
 
 echo "Create container"
-c_id=$(docker create lok52/verifier)
+c_id=$(docker create verifier:latest)
 echo $c_id
 
 workdir=./zp-relayer/params

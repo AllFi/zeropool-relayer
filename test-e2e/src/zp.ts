@@ -37,18 +37,22 @@ export async function syncAccounts(accounts: UserAccount[], relayerUrl = relayer
 }
 
 export async function syncNotesAndAccount(account: UserAccount, relayerUrl = relayerUrlFirst, numTxs = 20n, offset = 0n) {
+  console.log(`${relayerUrl}/transactions?limit=${numTxs.toString()}&offset=${offset.toString()}`)
   const txs = await fetch(
-    `${relayerUrl}/transactions/${numTxs.toString()}/${offset.toString()}`
+    `${relayerUrl}/transactions?limit=${numTxs.toString()}&offset=${offset.toString()}`
   ).then(r => r.json())
+
+  console.log(txs)
 
   // Extract user's accounts and notes from memo blocks
   for (let txNum = 0; txNum <= txs.length; txNum++) {
+    console.log("debug123")
     const tx = txs[txNum]
     if (!tx) continue
-
+    console.log("debug1234")
     // @ts-ignore
     accountToDelta[account] = (txNum + 1) * 128
-
+    console.log(tx)
     // little-endian
     const commitment = Uint8Array.from(tx.data.slice(0, 32)).reverse()
     console.log('Memo commit', Helpers.numToStr(commitment))
@@ -103,6 +107,7 @@ async function proofAndSend(mergeTx: any, fake: boolean, txType: string, deposit
     }
   } else {
     console.log('Getting proof from relayer...')
+    console.log( JSON.stringify({ pub: mergeTx.public, sec: mergeTx.secret }))
     const proof = await postData(`${relayerUrl}/proof_tx`, { pub: mergeTx.public, sec: mergeTx.secret })
       .then(r => r.json())
     console.log('Got tx proof', proof)

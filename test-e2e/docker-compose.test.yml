@@ -12,7 +12,7 @@ services:
     ports:
       - 8545:8545
   contracts:
-    image: lok52/zp-contracts:latest
+    image: contract:latest
     depends_on:
       - ganache
   redis1:
@@ -28,7 +28,7 @@ services:
     ports:
       - 6380:6380
   relayer1:
-    image: lok52/zp-relayer:latest
+    image: relayer:latest
     container_name: relayer1
     volumes:
       - $PARAMS_PATH:/app/zp-relayer/params/
@@ -36,7 +36,7 @@ services:
       - 8000:8000
     env_file: ./relayer1.env
   relayer2:
-    image: lok52/zp-relayer:latest
+    image: relayer:latest
     container_name: relayer2
     volumes:
       - $PARAMS_PATH:/app/zp-relayer/params/

@@ -276,7 +276,9 @@ class Pool {
     await this.syncState()
     const txs: string[] = []
     offset = Math.floor(offset / OUTPLUSONE) * OUTPLUSONE
+    console.log(`offset: ${offset}`)
     for (let i = 0; i < limit; i++) {
+      console.log(`tx index: ${offset + i * OUTPLUSONE}`)
       const tx = this.txs.get(offset + i * OUTPLUSONE)
       if (tx) {
         txs[i] = tx.toString('hex')

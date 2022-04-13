@@ -2,7 +2,7 @@
 
 set -e
 
-trap cleanup EXIT
+#trap cleanup EXIT
 
 FILE=docker-compose.test.yml
 
